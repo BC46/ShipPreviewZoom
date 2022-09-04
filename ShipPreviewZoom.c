@@ -1,18 +1,20 @@
-#define SHIP_PREVIEW_ZOOM_OFFSET ((PBYTE)0x5855C8)
-
 #include <windows.h>
+
+#define SHIP_PREVIEW_ZOOM_OFFSET ((PBYTE)0x5855C8)
 
 DWORD _;
 
-void Patch() {
-	VirtualProtect(SHIP_PREVIEW_ZOOM_OFFSET, 4, PAGE_READWRITE, &_);
+void ApplyPatch() {
+	float newZoomOffset = 5;
 
-	*SHIP_PREVIEW_ZOOM_OFFSET = 0x0000;
+	//shipmesh
+	VirtualProtect(SHIP_PREVIEW_ZOOM_OFFSET, sizeof(float), PAGE_READWRITE, &_);
+	memcpy(SHIP_PREVIEW_ZOOM_OFFSET, &newZoomOffset, sizeof(float));
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fwdReason, LPVOID lpReserved) {
 	if (fwdReason == DLL_PROCESS_ATTACH)
-		Patch();
+		ApplyPatch();
 	
 	return TRUE;
 }
