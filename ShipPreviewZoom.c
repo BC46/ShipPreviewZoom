@@ -12,8 +12,8 @@ void ApplyPatch() {
 	memcpy(SHIP_PREVIEW_ZOOM_OFFSET, &newZoomOffset, sizeof(float));
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fwdReason, LPVOID lpReserved) {
-	if (fwdReason == DLL_PROCESS_ATTACH)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved) {
+	if (fdwReason == DLL_PROCESS_ATTACH)
 		ApplyPatch();
 	
 	return TRUE;
