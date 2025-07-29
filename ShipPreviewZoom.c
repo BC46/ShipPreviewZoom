@@ -51,7 +51,11 @@ void ReadConfig( void )
 
 BOOLEAN WINAPI ShipPreview_ScrollHook( ShipTrader3DShip* this, int scrollValue )
 {
-    this->zoomLevel += (float) scrollValue;
+    int posNegScale = g_inverse * -2 + 1; // -1 if inverse, 1 otherwise
+    float zoomLevelIncrease = (float) scrollValue * g_scrollingSpeed * posNegScale;
+
+    this->zoomLevel += zoomLevelIncrease;
+    this->zoomLevel = max( -g_maxDistance, min( -g_minDistance, this->zoomLevel ) );
 
     return FALSE;
 }
