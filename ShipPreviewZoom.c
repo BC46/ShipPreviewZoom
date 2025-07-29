@@ -2,10 +2,51 @@
 #include "Common.h"
 #include "Utils.h"
 
+float g_scrollingSpeed = 3.0f;
+float g_minDistance = 0.0f;
+float g_maxDistance = 100.0f;
+BOOLEAN g_inverse = FALSE;
+
 void ReadConfig( void )
 {
-    struct INI_Reader reader;
+    INI_Reader reader;
     INI_Reader_constructor( &reader );
+
+    if ( !INI_Reader_open( &reader, "ShipPreviewZoom.ini", FALSE ) )
+    {
+        return;
+    }
+
+    while ( INI_Reader_read_header( &reader ) )
+    {
+        if ( !INI_Reader_is_header( &reader, "Options" ) )
+        {
+            continue;
+        }
+
+        while ( INI_Reader_read_value( &reader ) )
+        {
+            if ( INI_Reader_is_value( &reader, "scrolling_speed" ) )
+            {
+                g_scrollingSpeed = INI_Reader_get_value_float( &reader, 0 );
+            }
+            else if ( INI_Reader_is_value( &reader, "min_distance" ) )
+            {
+                g_minDistance = INI_Reader_get_value_float( &reader, 0 );
+            }
+            else if ( INI_Reader_is_value( &reader, "max_distance" ) )
+            {
+                g_maxDistance = INI_Reader_get_value_float( &reader, 0 );
+            }
+            else if ( INI_Reader_is_value( &reader, "inverse" ) )
+            {
+                g_inverse = INI_Reader_get_value_bool( &reader, 0 );
+            }
+        }
+    }
+
+    INI_Reader_close( &reader );
+    INI_Reader_destructor( &reader );
 }
 
 BOOLEAN WINAPI ShipPreview_ScrollHook( ShipTrader3DShip* this, int scrollValue )
