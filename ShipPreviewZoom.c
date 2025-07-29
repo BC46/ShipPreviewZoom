@@ -1,16 +1,22 @@
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include "Freelancer.h"
+#include "utils.h"
 
-#define SHIP_PREVIEW_ZOOM_OFFSET ((PBYTE) 0x5855C8)
-
-void ApplyPatch( void )
+BOOLEAN WINAPI ShipPreviewScrollHook( struct ShipPreviewWindow* this, int scrollValue )
 {
-    float newZoomOffset = 5;
+    UNREFERENCED_PARAMETER( this );
+    UNREFERENCED_PARAMETER( scrollValue );
 
-    //shipmesh
-    DWORD _;
-    VirtualProtect( SHIP_PREVIEW_ZOOM_OFFSET, sizeof(float), PAGE_READWRITE, &_ );
-    memcpy( SHIP_PREVIEW_ZOOM_OFFSET, &newZoomOffset, sizeof( float ) );
+    return FALSE;
+}
+
+THISCALL_TO_STDCALL_FUNC( void ShipPreviewScrollEntry(), ShipPreviewScrollHook )
+
+void Init( void )
+{
+    DWORD lpflOldProtect;
+
+    VirtualProtect( SHIP_PREVIEW_SCROLL_ADDR, sizeof( PDWORD ), PAGE_READWRITE, &lpflOldProtect);
+    *SHIP_PREVIEW_SCROLL_ADDR = (DWORD) ShipPreviewScrollEntry;
 }
 
 BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved )
@@ -20,7 +26,7 @@ BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved )
 
 	if ( fdwReason == DLL_PROCESS_ATTACH )
     {
-        ApplyPatch();
+        Init();
     }
 
     return TRUE;
