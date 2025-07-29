@@ -3,20 +3,19 @@
 
 BOOLEAN WINAPI ShipPreviewScrollHook( struct ShipPreviewWindow* this, int scrollValue )
 {
-    UNREFERENCED_PARAMETER( this );
-    UNREFERENCED_PARAMETER( scrollValue );
+    this->zoomLevel += (float) scrollValue;
 
     return FALSE;
 }
 
-THISCALL_TO_STDCALL_FUNC( void ShipPreviewScrollEntry(), ShipPreviewScrollHook )
+THISCALL_TO_STDCALL_SHIM( void ShipPreviewScrollShim(), ShipPreviewScrollHook )
 
 void Init( void )
 {
     DWORD lpflOldProtect;
 
     VirtualProtect( SHIP_PREVIEW_SCROLL_ADDR, sizeof( PDWORD ), PAGE_READWRITE, &lpflOldProtect);
-    *SHIP_PREVIEW_SCROLL_ADDR = (DWORD) ShipPreviewScrollEntry;
+    *SHIP_PREVIEW_SCROLL_ADDR = (DWORD) ShipPreviewScrollShim;
 }
 
 BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved )

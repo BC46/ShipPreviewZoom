@@ -1,6 +1,6 @@
 #define NAKED __declspec(naked)
 
-#define THISCALL_TO_STDCALL_FUNC(func, addr) \
+#define THISCALL_TO_STDCALL_SHIM(func, addr) \
     NAKED func \
     { \
         __asm pop eax \
