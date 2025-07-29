@@ -15,7 +15,7 @@ FILETYPE        VFT_DLL
             VALUE "FileVersion",      "0.1"
             VALUE "InternalName",     "ShipPreviewZoom"
             VALUE "LegalCopyright",   "Copyright 2025 BC46"
-            VALUE "OriginalFilename", "FLSharp.dll"
+            VALUE "OriginalFilename", "ShipPreviewZoom.dll"
             VALUE "ProductName",      "Freelancer"
             VALUE "ProductVersion",   "0, 1, 0, 0"
         }

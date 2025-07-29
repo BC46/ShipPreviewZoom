@@ -17,10 +17,10 @@
 
 #define SHIP_PREVIEW_SCROLL_ADDR ( (PDWORD) 0x5E4C14 )
 
-struct ShipTrader3DShip
+typedef struct ShipTrader3DShip
 {
     BYTE x00[0x3EC];
     float zoomLevel;
-};
+} ShipTrader3DShip;
 
 #endif

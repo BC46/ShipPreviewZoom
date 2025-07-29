@@ -5,11 +5,10 @@
 void ReadConfig( void )
 {
     struct INI_Reader reader;
-
     INI_Reader_constructor( &reader );
 }
 
-BOOLEAN WINAPI ShipPreview_ScrollHook( struct ShipTrader3DShip* this, int scrollValue )
+BOOLEAN WINAPI ShipPreview_ScrollHook( ShipTrader3DShip* this, int scrollValue )
 {
     this->zoomLevel += (float) scrollValue;
 
