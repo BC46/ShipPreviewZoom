@@ -60,7 +60,7 @@ BOOLEAN WINAPI ShipPreview_ScrollHook( ShipTrader3DShip* this, int scrollValue )
     return FALSE;
 }
 
-THISCALL_TO_STDCALL_SHIM( void ShipPreview_ScrollShim(), ShipPreview_ScrollHook )
+THISCALL_TO_STDCALL_SHIM( void ShipPreview_ScrollShim( void ), ShipPreview_ScrollHook )
 
 void InitHooks( void )
 {
@@ -72,8 +72,8 @@ void InitHooks( void )
 
 BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved )
 {
-    UNREFERENCED_PARAMETER(hinstDLL);
-    UNREFERENCED_PARAMETER(lpReserved);
+    UNREFERENCED_PARAMETER( hinstDLL );
+    UNREFERENCED_PARAMETER( lpReserved );
 
     if ( fdwReason == DLL_PROCESS_ATTACH )
     {
